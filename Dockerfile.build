@@ -1,0 +1,7 @@
+# Build environment for the GTK app: docker build -f Dockerfile.build -t syncloom-gtk-build .
+FROM rust:1-trixie
+RUN apt-get update && apt-get install -y --no-install-recommends \
+      libgtk-4-dev libadwaita-1-dev libdbus-1-dev pkg-config cmake clang xvfb xauth x11-apps imagemagick dbus-x11 \
+      adwaita-icon-theme fonts-inter fonts-noto-core gnome-themes-extra libgl1-mesa-dri mesa-vulkan-drivers \
+    && rm -rf /var/lib/apt/lists/*
+WORKDIR /src/syncloom-linux

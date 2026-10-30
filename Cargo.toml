@@ -1,0 +1,44 @@
+[package]
+name = "syncloom-linux"
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+authors = ["Sven Walther <sven@syncloom.de>"]
+repository = "https://github.com/Syncloom/syncloom-linux"
+description = "Syncloom for Linux: sync daemon, command-line client and GTK4/libadwaita app"
+
+[lib]
+name = "syncloom_linux"
+
+[[bin]]
+name = "syncloom"
+path = "src/bin/syncloom.rs"
+
+[[bin]]
+name = "syncloom-gtk"
+path = "src/bin/syncloom-gtk.rs"
+required-features = ["gtk"]
+
+[features]
+default = []
+gtk = ["dep:gtk", "dep:adw", "dep:qrcode"]
+
+[dependencies]
+syncloom-core = { path = "../syncloom-core" }
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "signal", "time", "sync"] }
+clap = { version = "4", features = ["derive", "env"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+base64 = "0.22"
+dirs = "5"
+rpassword = "7"
+totp-rs = { version = "5", features = ["otpauth"] }
+keyring = { version = "3", features = ["apple-native", "sync-secret-service", "crypto-rust"] }
+anyhow = "1"
+hostname = "0.4"
+gtk = { package = "gtk4", version = "0.9", optional = true, features = ["v4_12"] }
+adw = { package = "libadwaita", version = "0.7", optional = true, features = ["v1_5"] }
+qrcode = { version = "0.14", optional = true, default-features = false }
+
+[dev-dependencies]
+tempfile = "3"
